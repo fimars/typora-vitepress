@@ -1,0 +1,1446 @@
+/*!
+ * Typora VitePress Theme
+ * ---------------------------------------------------------------------------
+ * A Typora theme that reproduces the default look & feel of VitePress
+ * (https://vitepress.dev), including its light and dark palettes.
+ *
+ * The theme intentionally re-uses VitePress' own custom property names
+ * (`--vp-*`) so that anyone who has tweaked a VitePress site can tweak this
+ * theme with the exact same mental model. Typora's own variables (`--bg-color`,
+ * `--text-color`, ...) are then mapped onto the `--vp-*` tokens.
+ *
+ * Reference: vitepress@1.6.4
+ *   src/client/theme-default/styles/{vars,base,components/vp-doc}.css
+ *
+ * Author: @fimars
+ * License: MIT
+ */
+
+/* ===========================================================================
+ * 1. Design tokens
+ * ======================================================================== */
+
+/* --- 1.1 VitePress palette: light ------------------------------------- */
+:root {
+  --vp-c-white: #ffffff;
+  --vp-c-black: #000000;
+  --vp-c-neutral: var(--vp-c-black);
+  --vp-c-neutral-inverse: var(--vp-c-white);
+
+  /* gray */
+  --vp-c-gray-1: #dddde3;
+  --vp-c-gray-2: #e4e4e9;
+  --vp-c-gray-3: #ebebef;
+  --vp-c-gray-soft: rgba(142, 150, 170, 0.14);
+
+  /* indigo (default brand) */
+  --vp-c-indigo-1: #3451b2;
+  --vp-c-indigo-2: #3a5ccc;
+  --vp-c-indigo-3: #5672cd;
+  --vp-c-indigo-soft: rgba(100, 108, 255, 0.14);
+
+  /* purple */
+  --vp-c-purple-1: #6f42c1;
+  --vp-c-purple-2: #7e4cc9;
+  --vp-c-purple-3: #8e5cd9;
+  --vp-c-purple-soft: rgba(159, 122, 234, 0.14);
+
+  /* green */
+  --vp-c-green-1: #18794e;
+  --vp-c-green-2: #299764;
+  --vp-c-green-3: #30a46c;
+  --vp-c-green-soft: rgba(16, 185, 129, 0.14);
+
+  /* yellow */
+  --vp-c-yellow-1: #915930;
+  --vp-c-yellow-2: #946300;
+  --vp-c-yellow-3: #9f6a00;
+  --vp-c-yellow-soft: rgba(234, 179, 8, 0.14);
+
+  /* red */
+  --vp-c-red-1: #b8272c;
+  --vp-c-red-2: #d5393e;
+  --vp-c-red-3: #e0575b;
+  --vp-c-red-soft: rgba(244, 63, 94, 0.14);
+
+  /* background */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f6f6f7;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f6f6f7;
+
+  /* borders */
+  --vp-c-border: #c2c2c4;
+  --vp-c-divider: #e2e2e3;
+  --vp-c-gutter: #e2e2e3;
+
+  /* text */
+  --vp-c-text-1: #3c3c43;
+  --vp-c-text-2: #67676c;
+  --vp-c-text-3: #929295;
+
+  /* --- 1.2 VitePress typography --------------------------------------- */
+  /* `Ioskeley Mono` is the primary face; `Sarasa Mono J` supplies the CJK
+     glyphs it does not have. */
+  --vp-font-family-base: 'Ioskeley Mono', 'Sarasa Mono J', ui-monospace,
+    'SF Mono', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono',
+    'Courier New', monospace, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --vp-font-family-mono: 'Ioskeley Mono', 'Sarasa Mono J', ui-monospace,
+    'SF Mono', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono',
+    'Courier New', monospace;
+
+  /* --- 1.3 VitePress code tokens -------------------------------------- */
+  --vp-code-line-height: 1.7;
+  --vp-code-font-size: 0.875em;
+  --vp-code-color: var(--vp-c-brand-1);
+  --vp-code-bg: var(--vp-c-default-soft);
+  --vp-code-block-color: var(--vp-c-text-2);
+  --vp-code-block-bg: var(--vp-c-bg-alt);
+  --vp-code-lang-color: var(--vp-c-text-3);
+
+  /* shiki `github-light` mapped onto CodeMirror token names */
+  --vp-code-fg: #24292e;
+  --vp-code-token-keyword: #d73a49;
+  --vp-code-token-entity: #6f42c1;
+  --vp-code-token-constant: #005cc5;
+  --vp-code-token-string: #032f62;
+  --vp-code-token-comment: #6a737d;
+  --vp-code-token-variable: #e36209;
+  --vp-code-token-tag: #22863a;
+  --vp-code-token-invalid: #b31d28;
+  --vp-code-token-invalid-bg: #ffeef0;
+}
+
+/* --- 1.4 VitePress palette: dark -------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --vp-c-neutral: var(--vp-c-white);
+    --vp-c-neutral-inverse: var(--vp-c-black);
+
+    --vp-c-gray-1: #515c67;
+    --vp-c-gray-2: #414853;
+    --vp-c-gray-3: #32363f;
+    --vp-c-gray-soft: rgba(101, 117, 133, 0.16);
+
+    --vp-c-indigo-1: #a8b1ff;
+    --vp-c-indigo-2: #5c73e7;
+    --vp-c-indigo-3: #3e63dd;
+    --vp-c-indigo-soft: rgba(100, 108, 255, 0.16);
+
+    --vp-c-purple-1: #c8abfa;
+    --vp-c-purple-2: #a879e6;
+    --vp-c-purple-3: #8e5cd9;
+    --vp-c-purple-soft: rgba(159, 122, 234, 0.16);
+
+    --vp-c-green-1: #3dd68c;
+    --vp-c-green-2: #30a46c;
+    --vp-c-green-3: #298459;
+    --vp-c-green-soft: rgba(16, 185, 129, 0.16);
+
+    --vp-c-yellow-1: #f9b44e;
+    --vp-c-yellow-2: #da8b17;
+    --vp-c-yellow-3: #a46a0a;
+    --vp-c-yellow-soft: rgba(234, 179, 8, 0.16);
+
+    --vp-c-red-1: #f66f81;
+    --vp-c-red-2: #f14158;
+    --vp-c-red-3: #b62a3c;
+    --vp-c-red-soft: rgba(244, 63, 94, 0.16);
+
+    --vp-c-bg: #1b1b1f;
+    --vp-c-bg-alt: #161618;
+    --vp-c-bg-elv: #202127;
+    --vp-c-bg-soft: #202127;
+
+    --vp-c-border: #3c3f44;
+    --vp-c-divider: #2e2e32;
+    --vp-c-gutter: #000000;
+
+    --vp-c-text-1: #dfdfd6;
+    --vp-c-text-2: #98989f;
+    --vp-c-text-3: #6a6a71;
+
+    /* shiki `github-dark` */
+    --vp-code-fg: #e1e4e8;
+    --vp-code-token-keyword: #f97583;
+    --vp-code-token-entity: #b392f0;
+    --vp-code-token-constant: #79b8ff;
+    --vp-code-token-string: #9ecbff;
+    --vp-code-token-comment: #6a737d;
+    --vp-code-token-variable: #ffab70;
+    --vp-code-token-tag: #85e89d;
+    --vp-code-token-invalid: #fdaeb7;
+    --vp-code-token-invalid-bg: rgba(249, 117, 131, 0.14);
+  }
+}
+
+/* --- 1.5 Semantic aliases + Typora variable mapping ------------------- */
+:root {
+  /* functional colors (identical naming to VitePress) */
+  --vp-c-default-1: var(--vp-c-gray-1);
+  --vp-c-default-2: var(--vp-c-gray-2);
+  --vp-c-default-3: var(--vp-c-gray-3);
+  --vp-c-default-soft: var(--vp-c-gray-soft);
+
+  --vp-c-brand-1: var(--vp-c-indigo-1);
+  --vp-c-brand-2: var(--vp-c-indigo-2);
+  --vp-c-brand-3: var(--vp-c-indigo-3);
+  --vp-c-brand-soft: var(--vp-c-indigo-soft);
+
+  --vp-c-tip-1: var(--vp-c-brand-1);
+  --vp-c-tip-2: var(--vp-c-brand-2);
+  --vp-c-tip-3: var(--vp-c-brand-3);
+  --vp-c-tip-soft: var(--vp-c-brand-soft);
+
+  --vp-c-success-1: var(--vp-c-green-1);
+  --vp-c-success-2: var(--vp-c-green-2);
+  --vp-c-success-3: var(--vp-c-green-3);
+  --vp-c-success-soft: var(--vp-c-green-soft);
+
+  --vp-c-important-1: var(--vp-c-purple-1);
+  --vp-c-important-2: var(--vp-c-purple-2);
+  --vp-c-important-3: var(--vp-c-purple-3);
+  --vp-c-important-soft: var(--vp-c-purple-soft);
+
+  --vp-c-warning-1: var(--vp-c-yellow-1);
+  --vp-c-warning-2: var(--vp-c-yellow-2);
+  --vp-c-warning-3: var(--vp-c-yellow-3);
+  --vp-c-warning-soft: var(--vp-c-yellow-soft);
+
+  --vp-c-danger-1: var(--vp-c-red-1);
+  --vp-c-danger-2: var(--vp-c-red-2);
+  --vp-c-danger-3: var(--vp-c-red-3);
+  --vp-c-danger-soft: var(--vp-c-red-soft);
+
+  /* theme only */
+  --vp-c-selection: rgba(100, 108, 255, 0.22);
+  --vp-c-text-blur: var(--vp-c-text-3);
+  --vp-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --vp-shadow-2: 0 3px 12px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.07);
+  --vp-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  /* Typora core variables --------------------------------------------- */
+  --bg-color: var(--vp-c-bg);
+  --text-color: var(--vp-c-text-1);
+  --border-color: var(--vp-c-divider);
+  --panel-border-color: var(--vp-c-divider);
+  --window-border-color: var(--vp-c-divider);
+  --window-border: 1px solid var(--vp-c-divider);
+  --table-border-color: var(--vp-c-divider);
+
+  --md-char-color: var(--vp-c-text-3);
+  --meta-content-color: var(--vp-c-text-2);
+  --heading-char-color: var(--vp-c-text-3);
+
+  --primary-color: var(--vp-c-brand-3);
+  --primary-btn-border-color: transparent;
+  --primary-btn-text-color: var(--vp-c-white);
+  --focus-ring-color: var(--vp-c-brand-2);
+
+  --select-text-bg-color: var(--vp-c-selection);
+  --select-text-font-color: auto;
+  --search-select-bg-color: var(--vp-c-brand-soft);
+  --search-select-text-color: var(--vp-c-text-1);
+
+  --side-bar-bg-color: var(--vp-c-bg-alt);
+  --active-file-bg-color: var(--vp-c-brand-soft);
+  --active-file-text-color: var(--vp-c-brand-1);
+  --active-file-border-color: var(--vp-c-brand-1);
+  --active-toggle-btn-color: var(--vp-c-brand-soft);
+
+  --item-hover-bg-color: var(--vp-c-default-soft);
+  --item-hover-text-color: var(--vp-c-text-1);
+  --control-text-color: var(--vp-c-text-2);
+  --control-text-hover-color: var(--vp-c-text-1);
+
+  --blur-text-color: var(--vp-c-text-blur);
+  --color-popover-bg-color: var(--vp-c-bg);
+  --drag-placeholder-color: var(--vp-c-brand-soft);
+  --node-fill: var(--vp-c-default-soft);
+  --rawblock-edit-panel-bd: var(--vp-c-divider);
+
+  --monospace: var(--vp-font-family-mono);
+
+  /* Typora extra features */
+  --sequence-theme: simple;
+  --mermaid-theme: default;
+  --mermaid-font-family: var(--vp-font-family-base);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --vp-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.24), 0 1px 2px rgba(0, 0, 0, 0.28);
+    --vp-shadow-2: 0 3px 12px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.3);
+    --vp-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+
+    --vp-c-selection: rgba(100, 108, 255, 0.3);
+
+    --mermaid-theme: dark;
+
+    --select-text-font-color: var(--vp-c-text-1);
+  }
+}
+
+/* ===========================================================================
+ * 2. Document / window
+ * ======================================================================== */
+
+html {
+  /* Every size below is expressed in `rem` so Typora's own
+     "Font Size" preference keeps working. */
+  font-size: 16px;
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  font-family: var(--vp-font-family-base);
+  font-synthesis: style;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light dark;
+}
+
+body {
+  font-family: var(--vp-font-family-base);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-bg);
+}
+
+content {
+  background-color: var(--vp-c-bg);
+}
+
+.in-text-selection,
+::selection {
+  background: var(--select-text-bg-color);
+  color: var(--select-text-font-color);
+  text-shadow: none;
+}
+
+/* ===========================================================================
+ * 3. Writing area
+ * ======================================================================== */
+
+#write {
+  /* VitePress renders docs inside a 688px reading column, surrounded by a
+     32px gutter -> 688 + 2 * 32 = 752. */
+  max-width: 752px;
+  padding: 2.25rem 32px 6rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--vp-c-text-1);
+  background-color: transparent;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+@media screen and (max-width: 800px) {
+  #write {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+#write > :first-child {
+  margin-top: 0 !important;
+}
+
+/* --- 3.1 Headings ----------------------------------------------------- */
+
+#write h1,
+#write h2,
+#write h3,
+#write h4,
+#write h5,
+#write h6 {
+  position: relative;
+  font-family: var(--vp-font-family-base);
+  font-weight: 600;
+  cursor: text;
+  border: none;
+  color: var(--vp-c-text-1);
+}
+
+#write h1 {
+  margin: 2rem 0 1rem;
+  font-size: 1.75rem;
+  line-height: 1.4285714;
+  letter-spacing: -0.02em;
+}
+
+#write h2 {
+  margin: 3rem 0 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vp-c-divider);
+  font-size: 1.5rem;
+  line-height: 1.3333333;
+  letter-spacing: -0.02em;
+}
+
+#write h3 {
+  margin: 2rem 0 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+#write h4 {
+  margin: 1.5rem 0 0;
+  font-size: 1.125rem;
+  line-height: 1.3333333;
+  letter-spacing: -0.01em;
+}
+
+#write h5 {
+  margin: 1.5rem 0 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+#write h6 {
+  margin: 1.5rem 0 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* VitePress 1.x renders h1 at 32px only from the `md` breakpoint up.
+   Typora has no such breakpoint, so keep the larger size. */
+@media screen and (min-width: 768px) {
+  #write h1 {
+    font-size: 2rem;
+    line-height: 1.25;
+  }
+}
+
+/* Heading anchors: VitePress reveals a `#` on hover, sitting in the gutter. */
+#write h1:hover a.anchor,
+#write h2:hover a.anchor,
+#write h3:hover a.anchor,
+#write h4:hover a.anchor,
+#write h5:hover a.anchor,
+#write h6:hover a.anchor,
+#write h1 a.anchor:hover,
+#write h2 a.anchor:hover,
+#write h3 a.anchor:hover,
+#write h4 a.anchor:hover,
+#write h5 a.anchor:hover,
+#write h6 a.anchor:hover {
+  text-decoration: none;
+  color: var(--vp-c-text-3);
+  opacity: 1;
+}
+
+#write h1 tt,
+#write h1 code,
+#write h2 tt,
+#write h2 code,
+#write h3 tt,
+#write h3 code,
+#write h4 tt,
+#write h4 code,
+#write h5 tt,
+#write h5 code,
+#write h6 tt,
+#write h6 code {
+  font-size: 0.9em;
+}
+
+/* --- 3.2 Paragraph & inline elements ---------------------------------- */
+
+#write p {
+  margin: 1rem 0;
+  line-height: 1.75;
+}
+
+#write > p:first-child,
+#write > ul:first-child,
+#write > ol:first-child,
+#write > pre:first-child,
+#write > blockquote:first-child,
+#write > div:first-child,
+#write > table:first-child,
+#write > figure:first-child {
+  margin-top: 0;
+}
+
+#write strong,
+#write b {
+  font-weight: 600;
+}
+
+#write em {
+  font-style: italic;
+}
+
+#write a {
+  font-weight: 500;
+  color: var(--vp-c-brand-1);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.25s, opacity 0.25s;
+}
+
+#write a:hover {
+  color: var(--vp-c-brand-2);
+}
+
+#write mark {
+  padding: 0 0.15em;
+  border-radius: 2px;
+  background-color: var(--vp-c-warning-soft);
+  color: inherit;
+}
+
+#write sup,
+#write sub {
+  line-height: 0;
+}
+
+#write sup.md-footnote {
+  padding: 2px 4px;
+  border-radius: 4px;
+  background-color: var(--vp-c-default-soft);
+  color: var(--vp-c-text-2);
+  font-size: 0.75em;
+}
+
+#write sup.md-footnote a,
+#write sup.md-footnote a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+#write img {
+  max-width: 100%;
+}
+
+#write p > img:only-child {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#write kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid var(--vp-c-divider);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background-color: var(--vp-c-bg-soft);
+  font-family: var(--vp-font-family-base);
+  font-size: 0.85em;
+  line-height: 1.4;
+  color: var(--vp-c-text-2);
+}
+
+/* Markdown meta syntax (`**`, `==`, link URLs, ...) */
+#write .md-meta,
+#write .md-content {
+  color: var(--md-char-color);
+}
+
+#write .md-meta.md-before,
+#write .md-meta.md-after {
+  font-family: var(--vp-font-family-mono);
+  font-weight: 400;
+}
+
+/* --- 3.3 Lists -------------------------------------------------------- */
+
+#write ul,
+#write ol {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+}
+
+#write ul {
+  list-style: disc;
+}
+
+#write ol {
+  list-style: decimal;
+}
+
+#write li {
+  line-height: 1.5;
+}
+
+#write li + li {
+  margin-top: 0.5rem;
+}
+
+#write li > ul,
+#write li > ol {
+  margin: 0.5rem 0 0;
+}
+
+#write li p {
+  margin: 0;
+  line-height: 1.75;
+}
+
+#write li > p:first-child {
+  margin-top: 0;
+}
+
+#write li > p:last-child {
+  margin-bottom: 0;
+}
+
+/* nested list markers, mirroring VitePress' `list-style: disc / decimal` */
+#write ul ul {
+  list-style-type: circle;
+}
+
+#write ul ul ul {
+  list-style-type: square;
+}
+
+#write ol ol {
+  list-style-type: lower-alpha;
+}
+
+#write ol ol ol {
+  list-style-type: lower-roman;
+}
+
+/* Task lists */
+#write .md-task-list-item > input {
+  accent-color: var(--vp-c-brand-3);
+  cursor: pointer;
+}
+
+#write .task-list-done {
+  color: var(--vp-c-text-2);
+  text-decoration: line-through;
+}
+
+#write .task-list-done > p {
+  color: inherit;
+}
+
+/* --- 3.4 Blockquote & rules ------------------------------------------- */
+
+#write blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+  transition: border-color 0.5s;
+}
+
+#write blockquote > p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: inherit;
+}
+
+#write blockquote blockquote {
+  padding-right: 0;
+}
+
+#write hr {
+  margin: 1rem 0;
+  height: 0;
+  border: none;
+  border-top: 1px solid var(--vp-c-divider);
+  background: transparent;
+}
+
+/* --- 3.5 Tables ------------------------------------------------------- */
+
+#write table {
+  margin: 1.25rem 0;
+  width: 100%;
+  border-collapse: collapse;
+  word-break: initial;
+  font-variant-numeric: tabular-nums;
+}
+
+#write table tr {
+  border-top: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg);
+  transition: background-color 0.5s;
+}
+
+#write table tr:nth-child(2n) {
+  background-color: var(--vp-c-bg-soft);
+}
+
+#write table th,
+#write table td {
+  padding: 8px 16px;
+  border: 1px solid var(--vp-c-divider);
+  /* VitePress renders table text at 14px with a 24px line box. */
+  font-size: 0.875rem;
+  line-height: 1.7142857;
+}
+
+#write table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+  background-color: var(--vp-c-bg-soft);
+}
+
+#write .md-table-edit {
+  padding: 4px 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background-color: var(--vp-c-bg-elv);
+  box-shadow: var(--vp-shadow-1);
+}
+
+/* --- 3.6 Code --------------------------------------------------------- */
+
+/* inline code */
+#write :not(pre, h1, h2, h3, h4, h5, h6) > code {
+  font-family: var(--vp-font-family-mono);
+  font-size: var(--vp-code-font-size);
+  color: var(--vp-code-color);
+}
+
+#write :not(pre) > code,
+#write tt {
+  padding: 3px 6px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--vp-code-bg);
+  transition: color 0.25s, background-color 0.5s;
+}
+
+#write a > code {
+  color: var(--vp-code-color);
+}
+
+#write a:hover > code {
+  color: var(--vp-c-brand-2);
+}
+
+/* fenced code blocks */
+#write pre.md-fences,
+#write .md-fences {
+  margin: 1rem 0;
+  padding: 1.25rem 0;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--vp-code-block-bg);
+  color: var(--vp-code-fg);
+  font-family: var(--vp-font-family-mono);
+  font-size: var(--vp-code-font-size);
+  line-height: var(--vp-code-line-height);
+  transition: background-color 0.5s;
+}
+
+#write .md-fences .CodeMirror,
+#write .md-fences .CodeMirror-scroll,
+#write .md-fences .CodeMirror-sizer {
+  background-color: transparent;
+}
+
+#write .md-fences .CodeMirror-lines {
+  padding: 0 24px;
+}
+
+#write .md-fences .CodeMirror-code {
+  font-family: var(--vp-font-family-mono);
+  line-height: var(--vp-code-line-height);
+}
+
+#write .md-fences .code-tooltip {
+  background-color: var(--vp-code-block-bg);
+  border: none;
+  border-radius: 4px;
+  box-shadow: none;
+  color: var(--vp-c-text-2);
+}
+
+#write .md-fences .code-tooltip .ty-input {
+  border-radius: 4px;
+  background-color: var(--vp-c-default-soft);
+  color: var(--vp-c-text-2);
+}
+
+#write .md-lang {
+  top: 2px;
+  right: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vp-code-lang-color);
+  text-transform: lowercase;
+}
+
+#write .md-fences.mock-cm {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* CodeMirror token colors: shiki `github-light` / `github-dark` */
+.cm-s-inner .cm-keyword {
+  color: var(--vp-code-token-keyword);
+}
+.cm-s-inner .cm-operator {
+  color: var(--vp-code-token-keyword);
+}
+.cm-s-inner .cm-atom,
+.cm-s-inner.cm-atom {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-number {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-builtin {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-def {
+  color: var(--vp-code-token-entity);
+}
+.cm-s-inner .cm-qualifier {
+  color: var(--vp-code-token-entity);
+}
+.cm-s-inner .cm-variable {
+  color: var(--vp-code-fg);
+}
+.cm-s-inner .cm-variable-2 {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-variable-3 {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-property {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-string {
+  color: var(--vp-code-token-string);
+}
+.cm-s-inner .cm-string-2 {
+  color: var(--vp-code-token-string);
+}
+.cm-s-inner .cm-comment,
+.cm-s-inner.cm-comment {
+  color: var(--vp-code-token-comment);
+  font-style: normal;
+}
+/* Brackets — including the `<` / `>` of HTML tags, which CodeMirror emits as
+   `cm-tag cm-bracket` (shiki: `punctuation.definition.tag` -> plain fg). */
+.cm-s-inner .cm-bracket,
+.cm-s-inner .cm-tag.cm-bracket {
+  color: var(--vp-code-fg);
+}
+.cm-s-inner .cm-tag {
+  color: var(--vp-code-token-tag);
+}
+.cm-s-inner .cm-attribute {
+  color: var(--vp-code-token-entity);
+}
+.cm-s-inner .cm-meta {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-hr {
+  color: var(--vp-code-token-comment);
+}
+.cm-s-inner .cm-link,
+.cm-s-inner.cm-link {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-header,
+.cm-s-inner.cm-header {
+  color: var(--vp-code-token-constant);
+  font-weight: 600;
+}
+.cm-s-inner .cm-quote,
+.cm-s-inner.cm-quote {
+  color: var(--vp-code-token-tag);
+}
+.cm-s-inner .cm-constant {
+  color: var(--vp-code-token-constant);
+}
+.cm-s-inner .cm-defined {
+  color: var(--vp-code-token-variable);
+}
+.cm-s-inner .cm-error,
+.cm-s-inner .cm-invalidchar {
+  color: var(--vp-code-token-invalid);
+  background-color: var(--vp-code-token-invalid-bg);
+  border-radius: 2px;
+}
+.cm-s-inner .cm-negative {
+  color: var(--vp-code-token-invalid);
+}
+.cm-s-inner .cm-positive {
+  color: var(--vp-code-token-tag);
+}
+.cm-s-inner .cm-del,
+.cm-s-inner .cm-strikethrough {
+  text-decoration: line-through;
+}
+.cm-s-inner .cm-em {
+  font-style: italic;
+}
+.cm-s-inner .cm-strong {
+  font-weight: 600;
+}
+.cm-s-inner .cm-link {
+  text-decoration: underline;
+}
+.cm-s-inner .CodeMirror.cm-s-inner div.CodeMirror-cursor,
+.CodeMirror.cm-s-inner div.CodeMirror-cursor {
+  border-left: 2px solid var(--vp-c-brand-1);
+}
+.cm-s-inner div.CodeMirror-selected,
+.cm-s-inner.CodeMirror-focused div.CodeMirror-selected {
+  background: var(--select-text-bg-color);
+}
+.cm-s-inner .CodeMirror-activeline-background {
+  background: transparent;
+}
+.cm-s-inner .CodeMirror-gutters {
+  border-right: 1px solid var(--vp-c-divider);
+  background: inherit;
+}
+.cm-s-inner .CodeMirror-linenumber {
+  color: var(--vp-c-text-3);
+}
+.cm-s-inner .CodeMirror-matchingbracket {
+  color: var(--vp-c-brand-1) !important;
+  text-decoration: underline;
+}
+.cm-s-inner .CodeMirror-nonmatchingbracket {
+  color: var(--vp-c-danger-1) !important;
+}
+
+/* --- 3.7 YAML front matter / raw blocks ------------------------------- */
+
+#write pre.md-meta-block {
+  margin-top: 0;
+  padding: 1rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--vp-c-bg-alt);
+  color: var(--vp-c-text-2);
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+#write pre.md-meta-block:empty:before {
+  color: var(--vp-c-text-3);
+}
+
+#write .md-rawblock-container,
+#write .md-rawblock-input {
+  border-color: var(--vp-c-divider);
+  background-color: var(--vp-c-bg-alt);
+  color: var(--vp-c-text-1);
+}
+
+#write .md-rawblock-tooltip {
+  background-color: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-2);
+}
+
+/* --- 3.8 Math --------------------------------------------------------- */
+
+#write .mathjax-block,
+#write .md-mathjax-midline {
+  background: transparent;
+}
+
+#write .md-mathjax-midline .btn {
+  border: 0;
+}
+
+#write .MathJax_Display,
+#write mjx-container[jax='CHTML'][display='true'] {
+  margin: 1rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* --- 3.9 Diagrams ----------------------------------------------------- */
+
+#write .md-diagram-panel,
+#write .md-diagram-panel-preview {
+  border: none;
+  border-radius: 8px;
+  background-color: var(--vp-c-bg-alt);
+}
+
+#write .md-diagram-panel-preview {
+  text-align: center;
+}
+
+/* --- 3.10 Table of contents ------------------------------------------- */
+
+#write .md-toc {
+  margin: 1rem 0;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  font-size: 0.875rem;
+}
+
+#write .md-toc-content {
+  margin-left: 0;
+}
+
+#write .md-toc-item {
+  color: var(--vp-c-text-2);
+}
+
+#write .md-toc-inner {
+  color: var(--vp-c-text-2);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+#write .md-toc-inner:hover {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+}
+
+#write .md-toc-h1 .md-toc-inner {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+
+#write .md-toc-content:empty:before {
+  color: var(--vp-c-text-3);
+}
+
+/* --- 3.11 Link / footnote definitions --------------------------------- */
+
+#write .md-def-link .md-def-name,
+#write .md-def-footnote .md-def-name {
+  color: var(--vp-c-brand-1);
+}
+
+#write .md-def-link .md-def-content,
+#write .md-def-footnote .md-def-content {
+  color: var(--vp-c-text-3);
+}
+
+#write .md-def-link .md-def-title {
+  color: var(--vp-c-text-2);
+}
+
+/* ===========================================================================
+ * 4. Typora UI
+ * ======================================================================== */
+
+/* --- 4.1 Sidebar ------------------------------------------------------ */
+
+#typora-sidebar {
+  border-right: var(--window-border);
+  background-color: var(--side-bar-bg-color);
+  font-size: 14px;
+}
+
+.sidebar-tabs {
+  border-bottom: var(--window-border);
+}
+
+.sidebar-tab-btn,
+.info-panel-tab {
+  color: var(--control-text-color);
+  opacity: 1;
+}
+
+.info-panel-tab:hover,
+.sidebar-tab-btn:hover {
+  color: var(--vp-c-text-1);
+}
+
+.active-tab-files #info-panel-tab-file .info-panel-tab-border,
+.active-tab-outline #info-panel-tab-outline .info-panel-tab-border {
+  background-color: var(--vp-c-brand-1);
+}
+
+#outline-content {
+  line-height: 1.4;
+}
+
+.outline-item {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 4px;
+  color: var(--control-text-color);
+  transition: background-color 0.25s, color 0.25s;
+}
+
+.outline-item:hover {
+  background-color: var(--item-hover-bg-color);
+  color: var(--item-hover-text-color);
+}
+
+.outline-item.select,
+.outline-item-active > .outline-item {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+.file-node-content {
+  color: var(--control-text-color);
+}
+
+.file-node-content:hover {
+  color: var(--control-text-hover-color);
+}
+
+.file-tree-node.active > .file-node-content {
+  color: var(--active-file-text-color);
+}
+
+.file-list-item {
+  border-bottom: var(--window-border);
+}
+
+.file-list-item.active {
+  background: var(--active-file-bg-color);
+  color: var(--active-file-text-color);
+}
+
+.file-list-item-file-name {
+  font-weight: 600;
+}
+
+/* --- 4.2 Menus, popovers, dialogs ------------------------------------- */
+
+.dropdown-menu,
+.auto-suggest-container,
+.popover,
+#typora-quick-open {
+  border: var(--window-border);
+  border-radius: 8px;
+  background-color: var(--vp-c-bg-elv);
+  box-shadow: var(--vp-shadow-2);
+  color: var(--vp-c-text-1);
+}
+
+.dropdown-menu > li > a {
+  color: var(--vp-c-text-1);
+}
+
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover,
+.context-menu.dropdown-menu > li > a:hover,
+.menu-style-btn.active {
+  background-color: var(--item-hover-bg-color);
+  color: var(--vp-c-text-1);
+}
+
+.dropdown-menu .divider {
+  border-color: var(--vp-c-divider);
+  opacity: 1;
+}
+
+#typora-quick-open {
+  padding: 8px;
+}
+
+#typora-quick-open-input input {
+  border: 1px solid var(--vp-c-border);
+  border-radius: 6px;
+  background-color: var(--vp-c-bg-alt);
+  color: var(--vp-c-text-1);
+}
+
+#typora-quick-open-input input:focus {
+  border-color: var(--vp-c-brand-2);
+}
+
+#typora-quick-open-item {
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--vp-c-text-2);
+}
+
+#typora-quick-open-item.active,
+#typora-quick-open-item:hover {
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+/* Buttons */
+.btn-default {
+  border-color: transparent;
+  border-radius: 4px;
+  background: var(--vp-c-default-3);
+  color: var(--vp-c-text-1);
+  transition: background-color 0.25s, color 0.25s;
+}
+
+.btn-default.active,
+.btn-default.focus,
+.btn-default:active,
+.btn-default:focus,
+.btn-default:hover,
+.open > .dropdown-toggle.btn-default {
+  border-color: transparent;
+  background-color: var(--vp-c-default-2);
+  color: var(--vp-c-text-1);
+}
+
+.btn-primary {
+  border-color: transparent;
+  border-radius: 4px;
+  background-color: var(--vp-c-brand-3);
+  color: var(--primary-btn-text-color);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  border-color: transparent;
+  background-color: var(--vp-c-brand-2);
+  color: var(--primary-btn-text-color);
+}
+
+/* Search panel & notifications */
+#md-searchpanel,
+#md-notification {
+  border-bottom: var(--window-border);
+  background-color: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-1);
+  box-shadow: var(--vp-shadow-2);
+}
+
+#md-searchpanel input {
+  border-radius: 4px;
+  background-color: var(--vp-c-bg-alt);
+  color: var(--vp-c-text-1);
+}
+
+.ty-search-item-line,
+.ty-search-item-line.select {
+  color: var(--vp-c-text-1);
+}
+
+.ty-search-item-line.select {
+  background-color: var(--vp-c-brand-soft);
+  outline-color: var(--vp-c-brand-1);
+}
+
+/* --- 4.3 Mode / misc -------------------------------------------------- */
+
+.mac-seamless-mode #typora-sidebar {
+  background-color: var(--side-bar-bg-color);
+}
+
+.mac-os #write {
+  caret-color: var(--vp-c-brand-1);
+}
+
+/* The "source code mode" toggle shows the raw markdown inside #write */
+.typora-sourceview-on #write {
+  display: none;
+}
+
+/* Megamenu (Typora's full screen menu) */
+.megamenu-menu {
+  background-color: #1b1b1f;
+}
+
+.megamenu-menu-header {
+  border-bottom: 1px solid #2e2e32;
+}
+
+.megamenu-menu-list li a.active,
+.megamenu-menu-list:not(.saved) li a:hover {
+  background-color: var(--vp-c-brand-soft);
+  color: #ffffff;
+}
+
+/* Preferences panel */
+.ty-preferences .window-content {
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+}
+
+.ty-preferences .nav-group-item.active {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+/* Word count / footer */
+footer.ty-footer {
+  border-top: var(--window-border);
+  color: var(--vp-c-text-2);
+}
+
+/* ===========================================================================
+ * 5. Source code mode (`#typora-source`)
+ * ======================================================================== */
+
+#typora-source {
+  font-family: var(--vp-font-family-mono);
+  font-size: inherit;
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  --monospace: var(--vp-font-family-mono);
+}
+
+#typora-source .CodeMirror-lines {
+  max-width: 1000px;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+#typora-source .CodeMirror-cursor {
+  border-left: 2px solid var(--vp-c-brand-1);
+}
+
+.cm-s-typora-default .CodeMirror-activeline-background {
+  background: var(--vp-c-bg-soft);
+}
+
+.cm-s-typora-default div.CodeMirror-selected,
+.cm-s-typora-default.CodeMirror-focused div.CodeMirror-selected {
+  background: var(--select-text-bg-color);
+}
+
+.cm-s-typora-default .cm-header {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+.cm-s-typora-default .cm-header-1 { font-size: 1.5em; }
+.cm-s-typora-default .cm-header-2 { font-size: 1.3em; }
+.cm-s-typora-default .cm-header-3 { font-size: 1.15em; }
+.cm-s-typora-default .cm-header-4,
+.cm-s-typora-default .cm-header-5,
+.cm-s-typora-default .cm-header-6 { font-size: 1.05em; }
+
+.cm-s-typora-default .cm-link,
+.cm-s-typora-default .cm-url {
+  color: var(--vp-c-brand-1);
+}
+
+.cm-s-typora-default .cm-string {
+  color: var(--vp-code-token-string);
+}
+
+.cm-s-typora-default .cm-comment,
+.cm-s-typora-default .cm-comment.cm-hr {
+  color: var(--vp-code-token-comment);
+}
+
+.cm-s-typora-default .cm-keyword {
+  color: var(--vp-code-token-keyword);
+}
+
+.cm-s-typora-default .cm-strong {
+  font-weight: 600;
+}
+
+.cm-s-typora-default .cm-em {
+  font-style: italic;
+}
+
+.cm-s-typora-default .cm-quote {
+  color: var(--vp-c-text-2);
+}
+
+.cm-s-typora-default .cm-variable-2,
+.cm-s-typora-default .cm-variable-3 {
+  color: var(--vp-code-token-constant);
+}
+
+.cm-s-typora-default .cm-tag {
+  color: var(--vp-code-token-tag);
+}
+
+/* ===========================================================================
+ * 6. Focus mode
+ * ======================================================================== */
+
+.on-focus-mode {
+  --blur-text-color: var(--vp-c-text-3);
+}
+
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) * {
+  color: var(--vp-c-text-3) !important;
+}
+
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) img,
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) svg {
+  opacity: 0.4;
+}
+
+.on-focus-mode .task-list-item:not(.md-focus-container) > input {
+  opacity: 0.5;
+}
+
+.on-focus-mode .md-fences.md-focus .CodeMirror-code > *:not(.CodeMirror-activeline) *,
+.on-focus-mode .CodeMirror.cm-s-inner:not(.CodeMirror-focused) * {
+  color: var(--vp-c-text-3) !important;
+}
+
+.on-focus-mode li[cid]:not(.md-focus-container) {
+  color: var(--vp-c-text-3) !important;
+}
+
+.on-focus-mode #typora-source .CodeMirror-code > *:not(.CodeMirror-activeline) * {
+  color: var(--vp-c-text-3) !important;
+}
+
+.on-focus-mode .md-focus,
+.on-focus-mode .md-focus-container {
+  color: var(--vp-c-text-1);
+}
+
+.on-focus-mode #write blockquote {
+  border-left-color: var(--vp-c-divider);
+}
+
+/* ===========================================================================
+ * 7. Print / export
+ * ======================================================================== */
+
+@media print {
+  html {
+    font-size: 13px;
+  }
+
+  .typora-export * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .typora-export #write {
+    max-width: none;
+    padding: 0 1.5rem;
+  }
+
+  pre {
+    page-break-inside: avoid;
+    word-wrap: break-word;
+  }
+
+  #write h1,
+  #write h2,
+  #write h3,
+  #write h4,
+  #write h5,
+  #write h6 {
+    page-break-after: avoid;
+  }
+
+  #write table,
+  #write img,
+  #write .md-fences {
+    page-break-inside: avoid;
+  }
+
+  #write a {
+    color: var(--vp-c-brand-1);
+    text-decoration: underline;
+  }
+}
