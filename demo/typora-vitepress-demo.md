@@ -19,7 +19,7 @@ description: 覆盖全部样式的预览文档
 
 ## 段落与行内元素
 
-这是一段普通正文，行高 28px，段间距 16px。VitePress 的正文列宽是 688px。
+这是一段普通正文，行高 28px，段间距 16px。正文列宽 980px；换成 `typora-vitepress-fullwidth` 主题即为 fullwidth。
 
 支持 **加粗**、*斜体*、~~删除线~~、`行内代码`、==高亮==、<u>下划线</u>、H~2~O、X^2^，以及 [链接](https://vitepress.dev)、<https://vitepress.dev> 和脚注[^1]。
 
